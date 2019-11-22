@@ -1,0 +1,31 @@
+package Abstractconcept;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.*;
+import java.io.*;
+import java.sql.SQLException;
+
+public class test extends Test3
+{
+	//String str="hello";
+	public static void main(String[] args) 
+	{
+		/*ArrayList<String> list=new ArrayList<String>();
+		list.add("1");
+		list.add("2");
+		list.add("3");
+		list.add("4");
+		Iterator itr=list.iterator();
+		while(itr.hasNext()) {
+			Object i= itr.next();
+			System.out.println();
+		}
+	     */
+		String str1="mango";
+		String str2=new String("mango");
+		System.out.println(str1==str2);
+		System.out.println(str1.equals(str2));
+	}
+	}

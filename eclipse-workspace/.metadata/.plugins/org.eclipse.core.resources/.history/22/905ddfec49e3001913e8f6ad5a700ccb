@@ -1,0 +1,25 @@
+package collections;
+import java.io.*;
+import java.util.*;
+public class arraylist {
+
+	public static void main(String[] args) 
+	{
+       ArrayList<String> list=new ArrayList<String>();
+       ArrayList<String> list1=new ArrayList<String>();
+       list.add("Varnit");
+       list.add("Tyagi");
+       list.add("Abhi");
+       list1.add("Elephant");
+       list1.add("moti");
+       list1.add("bonee");
+       //list.remove(2);
+       list.
+       Iterator itr=list.iterator();
+       while(itr.hasNext())
+       {
+    	   System.out.println(itr.next());
+       }
+	}
+
+}

@@ -1,0 +1,29 @@
+package collections;
+import java.util.*;
+import java.io.*;
+public class Linkedlist {
+
+	public static void main(String[] args)
+	{
+		LinkedList<String> ll=new LinkedList();
+        ll.add("Arpit");
+        ll.add("Sharma");
+        ll.add("Ankit");
+        ll.add("jaat");
+        ll.addFirst("First");
+        ll.addLast("Last");
+        System.out.println("Peek "+ll.peek());
+        System.out.println("Peek First "+ll.peekFirst());
+        System.out.println("Peek Last "+ll.peekLast());
+        System.out.println("element "+ll.element());
+        System.out.println("get "+ll.get(1));
+        System.out.println("getFirst "+ll.getFirst());
+        System.out.println("getFirst "+ll.getFirst());
+        Iterator itr=ll.iterator();
+        while(itr.hasNext())
+        {
+        	System.out.println(itr.next());
+        }
+	}
+
+}

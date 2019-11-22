@@ -1,0 +1,9 @@
+package genericsInJava;
+
+import java.util.Map;
+
+public class TestOne <T>{
+      public void print(T stringo,T intoo,T obj,Map<T,T> map) {
+    	  System.out.println(stringo+" "+intoo);
+      }
+}

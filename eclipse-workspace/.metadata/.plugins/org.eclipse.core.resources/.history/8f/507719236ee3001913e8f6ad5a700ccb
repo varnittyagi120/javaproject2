@@ -1,0 +1,38 @@
+package collections;
+import java.io.*;
+import java.util.*;
+public class arraylist {
+
+	public static void main(String[] args) 
+	{
+       ArrayList<String> list=new ArrayList<String>();
+       ArrayList<String> list1=new ArrayList<String>();
+       ArrayList<String> list2=new ArrayList<String>();
+       list2.add("arpit");
+       list2.add("Sharma");
+       list1.add("Varnit");
+       list1.add("Tyagi");
+       list1.add("Abhi");
+       list1.add(2,"raghav");
+       
+     //  System.out.println(list.contains(list1));
+       System.out.println("parse stream "+list1.parallelStream());
+      // System.out.println(list1.);
+      // System.out.println(list.contains(list1));
+      // System.out.println(list.contains(list1));
+       list.add("bonee");
+       list.add("Elephant");
+       list.addAll(list1);
+       list.addAll(list2);
+      // list.remove("Varnit");
+       //list.removeIf(str->str.contains("arpit"));
+      list.retainAll(liat2);
+       Iterator itr=list.iterator();
+       while(itr.hasNext())
+       {
+    	   System.out.println(itr.next());
+       }
+       
+	}
+
+}

@@ -1,0 +1,21 @@
+package collections;
+import java.util.*;
+import java.io.*;
+public class vector 
+{
+	public static void main(String[] args)
+	{
+		Vector<String> v=new Vector<String>();
+		v.add("Varnit");
+		v.add("Tyagi");
+		v.add("raghav");
+		v.add("singhal");
+		System.out.println("capacity "+v.capacity());
+		Iterator itr=v.iterator();
+		while(itr.hasNext())
+		{
+			System.out.println(itr.next());
+		}
+	}
+
+}

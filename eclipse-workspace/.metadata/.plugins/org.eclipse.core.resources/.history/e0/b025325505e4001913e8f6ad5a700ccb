@@ -1,0 +1,16 @@
+package collections;
+import java.util.*;
+import java.io.*;
+public class enummap 
+{
+    public enum days
+    {
+    	SUNDAY,MONDAY,TUESDAY,WEDNESDAY,THURSDAY,FRIDAY,SATURDAY
+    };
+	public static void main(String[] args)
+	{
+		EnumMap<days,String> em=EnumMap<days,String>(days.class);
+
+	}
+
+}

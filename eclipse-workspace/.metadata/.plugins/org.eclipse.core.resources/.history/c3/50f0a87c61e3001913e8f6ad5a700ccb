@@ -1,0 +1,13 @@
+package collections;
+import java.util.*;
+import java.io.*;
+public class hashset {
+
+	public static void main(String[] args)
+	{
+	    HashSet<String> set=new HashSet<String>();
+	    
+
+	}
+
+}

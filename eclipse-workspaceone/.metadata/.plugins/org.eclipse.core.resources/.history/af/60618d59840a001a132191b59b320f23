@@ -1,0 +1,7 @@
+package genericsInJava;
+
+public class TestOne {
+      public <T1,T2> void print(T1 stringo,T2 intoo) {
+    	  System.out.println(stringo);
+      }
+}

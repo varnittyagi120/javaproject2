@@ -1,0 +1,6 @@
+package genericsInJava;
+
+public class TestTwo {
+       TestTwo obj = new TestTwo();
+       obj.print("40",10);
+}

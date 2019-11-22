@@ -1,0 +1,12 @@
+package genericsInJava;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class TestTwo {
+	     Map<String,String> map = new HashMap<String,String>();
+         public static void main(String[] args) {
+             TestOne obj = new TestOne();
+             obj.print("tyeutyu",100,obj,map);
+         }
+}

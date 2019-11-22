@@ -1,0 +1,32 @@
+package collections;
+import java.util.*;
+import java.io.*;
+public class vector 
+{
+	public static void main(String[] args)
+	{
+		Vector<String> v=new Vector<String>();
+		v.add("Varnit");
+		v.add("Tyagi");
+		v.add("raghav");
+		v.add("singhal");
+		System.out.println("capacity "+v.capacity());
+		System.out.println("elementAt "+v.elementAt(2));
+		System.out.println("first element "+v.firstElement());
+		System.out.println("get "+v.get(1));
+		System.out.println("hashcode "+v.hashCode());
+		System.out.println("lastelement "+v.lastElement());
+		System.out.println("remove "+v.remove(1));
+		System.out.println("splititerator "+v.spliterator());
+		//System.out.println("capacity "+v.capacity());
+
+
+		System.out.println("################################################");
+		Iterator itr=v.iterator();
+		while(itr.hasNext())
+		{
+			System.out.println(itr.next());
+		}
+	}
+
+}

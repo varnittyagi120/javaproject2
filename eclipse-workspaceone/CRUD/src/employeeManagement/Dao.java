@@ -1,0 +1,139 @@
+package employeeManagement;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Dao {
+	Connection connection = null;
+
+	public Dao() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/info", "newuser", "infoobjects");
+			System.out.println("connection established");
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+	}
+
+	public int insert(Employee employee) {
+		int status = 0;
+		try {
+			PreparedStatement ps = connection.prepareStatement(
+					"insert into emplyeelist(fname,lname,password,email,country,id) values (?,?,?,?,?,?)");
+			ps.setString(1, employee.getFname());
+			ps.setString(2, employee.getLname());
+			ps.setString(3, employee.getPassword());
+			ps.setString(4, employee.getEmail());
+			ps.setString(5, employee.getCountry());
+			ps.setString(6, employee.getUid());
+			status = ps.executeUpdate();
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			System.out.println("here2");
+		}
+		return status;
+	}
+
+	public List<Employee> readAllEmployees() {
+		System.out.println("i am here");
+		List<Employee> list = new ArrayList<>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			String sql = "Select * from emplyeelist";
+			preparedStatement = connection.prepareStatement(sql);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				Employee employee = new Employee();
+				employee.setFname(rs.getString(1));
+				employee.setLname(rs.getString(2));
+				employee.setPassword(rs.getString(3));
+				employee.setEmail(rs.getString(4));
+				employee.setCountry(rs.getString(5));
+				employee.setUid(rs.getString(6));
+				list.add(employee);
+			}
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+
+		return list;
+	}
+
+	public Employee readEmployee(String uid) {
+		PreparedStatement preparedStatement = null;
+		Employee employee = new Employee();
+		ResultSet rs = null;
+		try {
+			String sql = "Select * from emplyeelist where id = ?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, uid);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+
+				employee.setFname(rs.getString(1));
+				employee.setLname(rs.getString(2));
+				employee.setPassword(rs.getString(3));
+				employee.setEmail(rs.getString(4));
+				employee.setCountry(rs.getString(5));
+				employee.setUid(rs.getString(6));
+
+			}
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+
+		return employee;
+
+	}
+
+	public int update(Employee employee) {
+		int rowsUpdated = 0;
+		try {
+			String sql = "UPDATE  emplyeelist set fname=?,lname=?,password=?,email=?,country=? WHERE id=?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, employee.getFname());
+			statement.setString(2, employee.getLname());
+			statement.setString(3, employee.getPassword());
+			statement.setString(4, employee.getEmail());
+			statement.setString(5, employee.getCountry());
+			statement.setString(6, employee.getUid());
+			rowsUpdated = statement.executeUpdate();
+
+		} catch (Exception exception) {
+			System.out.println("Got an Exception " + exception.getMessage());
+		}
+		return rowsUpdated;
+	}
+
+	public int delete(String uid) {
+		int rowsDeleted = 0;
+		try {
+			String sql = "DELETE FROM emplyeelist WHERE id=?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, uid);
+
+			rowsDeleted = statement.executeUpdate();
+		} catch (Exception exception) {
+			System.out.println("Got an exception " + exception.getMessage());
+		}
+		return rowsDeleted;
+	}
+
+	public void finalize() throws Throwable {
+		try {
+			if (connection != null) {
+				connection.close();
+			}
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		}
+
+	}
+}

@@ -1,0 +1,432 @@
+package service;
+
+import java.util.Calendar;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.UUID;
+
+import dao.DatabaseQueries;
+import dto.Employee;
+import util.Utility;
+
+public class EMSManagement implements CRUDContainer{
+	Map<String,String> map=new LinkedHashMap<String,String>();
+	Scanner scanner = new Scanner(System.in);
+	String stringFormatOne = "%-5s%-36s %-5s %-12s %-5s %-12s %-5s %-10s %-5s %-28s %-5s\n";
+	String StringFormatTwo = "%-5s%-33s %-5s %-12s %-5s %-12s %-5s %-13s %-5s %-28s %-5s\n";
+    Utility utility=new Utility();
+	public void add(DatabaseQueries databaseQueries) {
+		System.out.println("i am in ems");
+		Employee employee = new Employee();
+		System.out.println("Enter First name (required) \nFor example : Varnit");
+		int flag;
+		String str;
+		employee.setFname(inputName());
+
+		System.out.println("Enter Last name (required) \nFor example : Tyagi");
+		employee.setLname(inputName());
+
+		System.out.println("Enter Mobile Number (required) \nFor India : only 10 digits integer with correct format");
+		do {
+			flag = 1;
+			str = scanner.nextLine();
+			flag=checkRequiredField(str);
+			if(flag==1){
+				flag = utility.validateMobileNumber(str);
+				if (flag == 0) {
+					System.out.println("Please enter correct mobile number");
+				}
+			}
+		} while (flag == 0);
+		employee.setNumber(str);
+
+		System.out.println("Enter Emailid (required) \nFor example : example@gmail.com");
+		do {
+			flag = 1;
+			str = scanner.nextLine();
+			flag=checkRequiredField(str);
+			if(flag==1){
+				flag = utility.validateEmail(str);
+				if (flag == 0) {
+					System.out.println("Please enter correct email address");
+				}
+			}
+		} while (flag == 0);
+		employee.setEmail(str);
+        
+		System.out.println("Enter date of joining (required)");
+		employee.setDateOfJoining(inputDateOfJoining());
+        
+		String salaryInString=null;
+		double salaryInDouble=0.00;
+		System.out.println("Enter salary (optional) \nBetween 10000>= to <=100000");
+		do {
+			try {
+				flag = 1;
+				salaryInString = scanner.nextLine();
+				if(salaryInString.isEmpty())
+				{
+					salaryInString="null";
+					break;
+				}else {
+					salaryInDouble=Double.parseDouble(salaryInString);
+				}
+				if(flag==1){
+					flag = validateSalary(salaryInDouble);
+					if (flag == 0) {
+						System.out.println("Please enter salary between 10000>= to <=100000");
+					}
+				}
+			} catch(Exception exception) {
+				System.out.println("please enter salary only numeric type");
+				flag=0;
+			}
+		} while (flag == 0);
+		employee.setSalary(salaryInString);
+
+		
+		String uniqueID = UUID.randomUUID().toString();
+		employee.setUid(uniqueID);
+		map.put("id",employee.getUid());
+		map.put("fname",employee.getFname());
+		map.put("lname",employee.getLname());
+		map.put("number",employee.getNumber());
+		map.put("email",employee.getEmail());
+		map.put("billamount",employee.getDateOfJoining());
+		map.put("salary",employee.getSalary());
+		System.out.println();
+		//databaseQueries.addData(employee,"employee100");
+	}
+
+	public void read(DatabaseQueries databaseQueries) {
+		try {
+			String uid = getUid();
+			List<Employee> list = databaseQueries.readEmployee(uid);
+			if (!list.isEmpty()) {
+				System.out.println(String.format("%s",
+						"----------------------------------------------------------------------------------------------------------------------------------------"));
+
+				System.out.format(stringFormatOne, "|", "UniqueID", "|", "First Name", "|", "Last Name", "|",
+						"Mobile Number", "|", "E-mail", "|");
+
+				System.out.println(String.format("%s",
+						"----------------------------------------------------------------------------------------------------------------------------------------"));
+
+				System.out.format(StringFormatTwo, "|", list.get(0).getUid(), "|", list.get(0).getFname(), "|",
+						list.get(0).getLname(), "|", list.get(0).getNumber(), "|", list.get(0).getEmail(), "|");
+				System.out.println(String.format("%s",
+						"----------------------------------------------------------------------------------------------------------------------------------------"));
+
+			} else {
+				System.out.println("Desired entry not found please try again");
+			}
+		} catch (Exception exception) {
+			System.out.println("Got an Exception " + exception.getMessage());
+		}
+	}
+
+	public void readall(DatabaseQueries databaseQueries) {
+		try {
+			List<Employee> list = databaseQueries.readAllEmployees();
+			if (!list.isEmpty()) {
+				System.out.println(String.format("%s",
+						"----------------------------------------------------------------------------------------------------------------------------------------"));
+				System.out.format(stringFormatOne, "|", "UniqueID", "|", "First Name", "|", "Last Name", "|",
+						"Mobile Number", "|", "E-mail", "|");
+				for (int i = 0; i < list.size(); i++) {
+					System.out.println(String.format("%s",
+							"----------------------------------------------------------------------------------------------------------------------------------------"));
+
+					System.out.format(StringFormatTwo, "|", list.get(i).getUid(), "|", list.get(i).getFname(), "|",
+							list.get(i).getLname(), "|", list.get(i).getNumber(), "|", list.get(i).getEmail(), "|");
+				}
+				System.out.println(String.format("%s",
+						"----------------------------------------------------------------------------------------------------------------------------------------"));
+
+			} else {
+				System.out.println("Database is empty no entry found");
+			}
+		} catch (Exception exception) {
+			System.out.println("Got an exception " + exception.getMessage());
+		}
+	}
+
+	public void update(DatabaseQueries databaseQueries) {
+		String uid = getUid();
+		try {
+			List<Employee> list = databaseQueries.checkUidExsist(uid);
+			if (!list.isEmpty()) {
+				System.out.println("Your old first name " + list.get(0).getFname() + "\n"
+						+ "Enter fname if u want to update else press enter");
+				String fname;
+				int flag;
+				do {
+					flag = 1;
+					fname = scanner.nextLine();
+					if (fname.isEmpty()) {
+						fname = list.get(0).getFname();
+					} else {
+						flag = utility.validateName(fname);
+						if (flag == 0) {
+							System.out.println("Please enter only characters");
+						}
+					}
+				} while (flag == 0);
+				list.get(0).setFname(fname);
+
+				System.out.println("Your old last name " + list.get(0).getLname() + "\n"
+						+ "Enter last name if u want to update else press enter");
+				String lname;
+				do {
+					flag = 1;
+					lname = scanner.nextLine();
+					if (lname.isEmpty()) {
+						lname = list.get(0).getLname();
+					} else {
+						flag = utility.validateName(lname);
+						if (flag == 0) {
+							System.out.println("Please enter only characters");
+						}
+					}
+				} while (flag == 0);
+				list.get(0).setLname(lname);
+
+				System.out.println("Your old Mobile Number " + list.get(0).getNumber() + "\n"
+						+ "Enter mobile number if u want to update else press enter");
+				String mobileNumber;
+				do {
+					flag = 1;
+					mobileNumber = scanner.nextLine();
+					if (mobileNumber.isEmpty()) {
+						mobileNumber = list.get(0).getNumber();
+					} else {
+						flag = utility.validateMobileNumber(mobileNumber);
+						if (flag == 0) {
+							System.out.println("Please enter correct mobile number");
+						}
+					}
+				} while (flag == 0);
+				list.get(0).setNumber(mobileNumber);
+
+				System.out.println("Your old email-id " + list.get(0).getEmail() + "\n"
+						+ "Enter email-id if u want to update else press enter");
+				String email;
+				do {
+					flag = 1;
+					email = scanner.nextLine();
+					if (email.isEmpty()) {
+						email = list.get(0).getEmail();
+					} else {
+						flag = utility.validateEmail(email);
+						if (flag == 0) {
+							System.out.println("Please enter correct email address");
+						}
+					}
+				} while (flag == 0);
+				list.get(0).setEmail(email);
+
+				databaseQueries.updateData(uid, list.get(0));
+			} else {
+				System.out.println("Desired entry not found please try again");
+			}
+		} catch (Exception exception) {
+			System.out.println("Got an Exception " + exception.getMessage());
+		}
+
+	}
+
+	public void delete(DatabaseQueries databaseQueries) {
+		String uid = getUid();
+		databaseQueries.deleteData(uid);
+	}
+    
+	public String inputName()
+	{
+		int flag;
+		String str;
+		do {
+			flag = 1;
+			str = scanner.nextLine();
+			flag=checkRequiredField(str);
+			if(flag==1) {
+				flag = utility.validateName(str);
+				if (flag == 0) {
+					System.out.println("Please enter only characters");
+				}
+			}
+		} while (flag == 0);
+		return str;
+	}
+	public int checkRequiredField(String str) {
+		int flag=1;
+		if (str.isEmpty()) {
+			flag = 0;
+			System.out.println("required");
+		}
+		return flag;
+	}
+
+
+	public String getUid() {
+		System.out.println("Enter uuid");
+		String str = scanner.nextLine();
+		return str;
+	}
+    public String inputDateOfJoining()
+    {
+    	 int year,month,date;
+	     year=validateYear();
+	     month=validateMonth();
+	     date=validateDate(year,validateLeapYear(year),month);
+         String dateOfJoining=String.valueOf(date)+"-"+String.valueOf(month)+"-"+String.valueOf(year);
+         return dateOfJoining;
+    }
+    public int validateYear()
+    {
+ 	   
+ 	   String yy;
+ 	   int year=0;
+ 	   int flag;
+ 	   do{
+ 		   flag=1;
+ 		   try{
+ 			   System.out.println("Enter year between 2000>= and <="+Calendar.getInstance().get(Calendar.YEAR));
+ 		      yy=scanner.nextLine();
+ 		      flag=checkRequiredField(yy);
+ 		      if(flag==1) {
+ 		    	   year=Integer.parseInt(yy);
+ 		      }
+ 		   }catch(Exception e) {
+ 			   System.out.println("Please enter only integers");
+ 			   flag=0;
+ 		   }
+ 		   if(flag==1){
+ 			   if(year>=2000 && year<=Calendar.getInstance().get(Calendar.YEAR)) {
+ 				   return year;  
+ 			   }else {
+ 				   System.out.println("please enter year between 2000>= and <="+Calendar.getInstance().get(Calendar.YEAR));
+ 				   flag=0;
+ 			   }
+ 		   }
+ 		   
+ 	   } while(flag==0);
+ 	   return year;
+    }
+    public  int validateMonth()
+    {
+ 	   
+ 	   String mm;
+ 	   int month=0;
+ 	   int flag;
+ 	   do{
+ 		   flag=1;
+ 		   try{
+ 			   System.out.println("Enter month between 1>= and <=12");
+ 		      mm=scanner.nextLine();
+ 		      flag=checkRequiredField(mm);
+		      if(flag==1) {
+		    	  month=Integer.parseInt(mm);
+		      }
+ 		   }catch(Exception e) {
+ 			   System.out.println("Please enter only integers");
+ 			   flag=0;
+ 		   }
+ 		   if(flag==1){
+ 			   if(month>=1 && month<=12) {
+ 				   return month;  
+ 			   }else {
+ 				   System.out.println("please enter month between 1>= and <=12 ");
+ 				   flag=0;
+ 			   }
+ 		   }
+ 		   
+ 	   } while(flag==0);
+ 	   return month;
+    }
+    public boolean validateLeapYear(int year)
+    {
+ 	   boolean flag=false;
+ 	   if(year % 4 == 0) {
+ 		   if(year % 100 == 0) {
+ 			   if(year % 400 == 0) {
+ 				   flag=true;
+ 			   }else {
+ 				   flag=false;
+ 			   }
+ 		   } else {
+ 			   flag=true;
+ 		   }
+ 	   } else {
+ 		   flag=false;
+ 	   }
+ 	   return flag;
+    }
+    public  int validateDate(int year,boolean leap,int month)
+    {
+ 	   String dd;
+ 	   int date=0;
+ 	   int flag;
+ 	   do{
+ 		   flag=1;
+ 		   try{
+ 			 System.out.println("Enter date according to the month between 1>= and <=31");
+ 		     dd=scanner.nextLine();
+		      flag=checkRequiredField(dd);
+		      if(flag==1) {
+		    	  date=Integer.parseInt(dd);;
+		      }
+ 		   }catch(Exception e) {
+ 			   System.out.println("Please enter only integers");
+ 			   flag=0;
+ 		   }
+ 		   if(flag==1){
+ 			   if(month==2) {
+ 				   if(leap) {
+ 					   if(date>=1 && date<=29) {
+ 						   return date;
+ 					   }else {
+ 						 flag=0;   
+ 					   }
+ 				   }else {
+ 					   if(date>=1 && date<=28) {
+ 						   return date;
+ 					   }else {
+ 						 flag=0;   
+ 					   }
+ 				   }
+ 			   } else if(month == 4 || month == 6 || month == 9 || month == 11) {
+ 				    if(date >= 1 && date <=30){
+ 				    	return date;
+ 				    }else {
+ 				    	flag=0;
+ 				    }
+ 			   }else {
+ 				   if(date >= 1 && date <=31){
+ 				    	return date;
+ 				    }else {
+ 				    	flag=0;
+ 				    }
+ 			   }
+ 			   if(flag==0)
+ 			   {
+ 				   System.out.println("Please enter correct date");   
+ 			   }
+ 		   }
+ 		   
+ 		   
+ 	   } while(flag==0);
+ 	   return date;
+    }
+    public int validateSalary(Double salary)
+    {
+    	int flag=0;
+    	if(salary >= 10000 && salary<=100000)
+    	{
+    		flag=1;
+    	}
+    	return flag;
+    }
+    
+}

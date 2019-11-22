@@ -1,0 +1,14 @@
+package Abstractconcept;
+public class test 
+{
+
+	public static void main(String[] args) 
+	{
+		Salary s=new Salary("raghav","ludhiana",1,1000000.00);
+	       s.mailcheck();
+	    A first=new Salary("raghav","mirzapur",1,1000000.00);
+	    first.mailcheck();
+
+	}
+
+}

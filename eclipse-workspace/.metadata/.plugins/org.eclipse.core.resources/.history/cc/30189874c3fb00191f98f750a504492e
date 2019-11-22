@@ -1,0 +1,29 @@
+package Abstractconcept;
+
+import java.util.Scanner;
+
+public class Empinfo {
+    enum employeeFields{
+    	name,email,mobilenumber;
+    }
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		String str=sc.next();
+		employeeFields obj=employeeFields.mobilenumber;
+		switch(obj) 
+		{
+		case mobilenumber:
+			System.out.println("mobile number");
+			break;
+		case email:
+			System.out.println("email");
+			break;
+		case name:
+			System.out.println("name");
+			break;
+		}
+		
+
+	}
+
+}

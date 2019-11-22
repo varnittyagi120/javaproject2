@@ -1,0 +1,18 @@
+package collections;
+import java.util.*;
+import java.io.*;
+public class collectionclass {
+
+	public static void main(String[] args) 
+	{
+		List<String> list=new ArrayList<String>();
+		list.add("cricket");
+		list.add("football");
+		list.add("hockey");
+		list.add("tt");
+		System.out.println(list);
+		Collections.addAll(list,"games");
+		System.out.println(list);
+	}
+
+}

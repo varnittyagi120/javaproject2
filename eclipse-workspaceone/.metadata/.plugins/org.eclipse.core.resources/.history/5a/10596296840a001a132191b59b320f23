@@ -1,0 +1,7 @@
+package genericsInJava;
+
+public class TestTwo {
+         public static void main(String[] args) {
+             TestOne obj = new TestOne();
+         }
+}

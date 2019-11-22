@@ -1,0 +1,30 @@
+package gateway;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
+public class SMSgateway {
+	public static void main(String[] args) {
+
+		try {
+
+		
+		String requestUrl  = "https://2factor.in/API/V1/be5b7f3f-ddbe-11e9-ade6-0200cd936042/SMS/+918727844990/AUTOGEN";
+     
+		URL url = new URL(requestUrl);
+
+		HttpURLConnection uc = (HttpURLConnection)url.openConnection();
+
+		System.out.println(uc.getResponseMessage());
+        System.out.println(uc.getHeaderField(2));
+		uc.disconnect();
+
+		} catch(Exception ex) {
+
+		System.out.println(ex.getMessage());
+
+		}
+
+		}
+}

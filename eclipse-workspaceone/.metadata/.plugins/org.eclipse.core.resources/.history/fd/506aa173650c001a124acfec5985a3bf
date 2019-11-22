@@ -1,0 +1,5 @@
+<html>
+<body>
+   <form action="HelloWorld" method="GET"></form>
+</body>
+</html>

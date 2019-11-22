@@ -1,0 +1,5 @@
+package genericsInJava;
+
+public class TestTwo {
+       TestOne<String,Integer> obj = new TestOne<String,Integer>();
+}

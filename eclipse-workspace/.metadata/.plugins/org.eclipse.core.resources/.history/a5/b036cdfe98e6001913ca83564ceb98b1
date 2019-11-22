@@ -1,0 +1,14 @@
+package generics;
+import java.util.*;
+public class lowerboundwildcard 
+{
+    public static void show(List<?super Integer>list)
+    {
+    	
+    }
+	public static void main(String[] args)
+	{
+
+	}
+
+}

@@ -1,0 +1,35 @@
+package collections;
+import java.util.*;
+import java.io.*;
+public class collectionclassfunction {
+
+	public static void main(String[] args)
+	{
+		List<Integer> list=new ArrayList<Integer>();
+		List<Integer> list1=new ArrayList<Integer>();
+		List<Integer> list2=new ArrayList<Integer>();
+		//list1.add(10);
+		list1.add(50);
+		list1.add(67);
+        list.add(100);
+        list.add(10);
+        list.add(50);
+        list.add(67);
+        list.add(10);
+        list2.add(2000);
+        list2.add(3000);
+        list2.add(4000);
+        System.out.println("collction min function "+Collections.min(list));
+        System.out.println("collction max function "+Collections.max(list));
+        System.out.println("collction binary search function "+Collections.binarySearch(list,10));
+        System.out.println("collction frequency function "+Collections.frequency(list,10));
+        System.out.println("collction index of sublist function "+Collections.indexOfSubList(list,list1));
+        System.out.println("collction last indexof function "+Collections.lastIndexOfSubList(list,list1));
+        System.out.println("collction Empty_LIST function "+Collections.EMPTY_LIST);
+        System.out.println("collction Empty_map function "+Collections.EMPTY_MAP);
+        System.out.println("collction addall function "+Collections.addAll(list,1,2));
+        System.out.println(list);
+        System.out.println("collction addall function "+Collections.replaceAll(list,2000,10000));
+	}
+
+}

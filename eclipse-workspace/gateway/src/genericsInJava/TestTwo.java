@@ -1,0 +1,17 @@
+package genericsInJava;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class TestTwo {
+         public static void main(String[] args) {
+    	     Map<String,String> map = new HashMap<String,String>();
+             TestOne<Client> obj = new TestOne<>();
+             map.put("a", "1");
+             map.put("b", "2");
+             map.put("c", "3");
+             map.put("d", "4");
+           //  obj.print("tyeutyu",100,obj,map);
+             
+         }
+}

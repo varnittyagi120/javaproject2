@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<style>
+.button{
+  background-color: #4CAF50; 
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  
+  border-radius:5px;
+}
+
+</style>
+<body>
+        <h1 style="margin-left:450px;">Welcome to EMSWithCMS</h1>
+        <h2 style="margin-left:400px;">For accessing application first you need to login</h2>
+	    <a href = "LogIn"><button style='margin-left:1150px'class="button" >Login</button></a><br><br>
+</body>
+</html>
